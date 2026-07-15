@@ -24,7 +24,7 @@ int main()
     uint32_t value_REG, value_POS;
     scanf("%hhx %u", &value_REG, & value_POS);
     uint8_t RESULT = EXTRACT_NIBBLE(value_REG, value_POS);
-    printf("%hhu", RESULT);
+    printf("%hhx", RESULT);
 
 
     return 0;
