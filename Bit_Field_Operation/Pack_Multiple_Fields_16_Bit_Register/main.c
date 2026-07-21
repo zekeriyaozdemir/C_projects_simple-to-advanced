@@ -22,9 +22,11 @@ Task queue is:
 uint16_t PACK_REGISTER(uint8_t MODE, uint8_t SPEED, uint8_t STATUS)
 {
     uint16_t REG = 0;
-    REG = (MODE << 0) | (SPEED << 3) | (STATUS << 10);
+    REG = ((MODE & 0x07) << 0) | 
+          ((SPEED & 0x1F) << 3) | 
+          ((STATUS & 0x3F) << 10);              //Control with "&" operation, if user give overflowing value.
 
-    if ((REG & 0x0100) | (REG & 0x0200) | (REG & 0x0300)) {printf("Reserved Field is NOT 0!\n");}
+    if (REG & 0x0300) {printf("Reserved Field is NOT 0!\n");}  //Control, if coder try to giving some value on reserved field.
     
     else {printf("Reserved Field is 0\n");}
 
@@ -35,7 +37,7 @@ int main()
 {
     uint8_t mode, speed, status;
     scanf("%hhu %hhu %hhu", &mode, & speed, &status);
-    printf("STATE OF REGISTER(HEX): 0x%x\n", PACK_REGISTER(mode, speed, status));
+    printf("STATE OF REGISTER(HEX): 0x%04X\n", PACK_REGISTER(mode, speed, status));
 
     return 0;
 }
